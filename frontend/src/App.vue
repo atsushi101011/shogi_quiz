@@ -15,4 +15,13 @@
   color: #2c3e50;
   margin-top: 50px;
 }
+
 </style>
+
+<script>
+export default {
+  created() {
+    this.$store.dispatch('fetchQuestions')
+  },
+}
+</script>
