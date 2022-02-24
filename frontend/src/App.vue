@@ -17,3 +17,11 @@
 }
 
 </style>
+
+<script>
+export default {
+  created() {
+    this.$store.dispatch('fetchQuestions')
+  },
+}
+</script>

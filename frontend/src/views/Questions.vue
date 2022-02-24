@@ -3,15 +3,10 @@
   <v-col cols="8">
         <table>
           <tr>
-            <th>Title</th>
-            <th>Description</th>
+            <th>問題</th>
           </tr>
-          <tr>
-            <td>aa</td>
-            <td>aa</td>
-            <td>show</td>
-            <td>Edit</td>
-            <td>Destroy</td>
+          <tr v-for="question in questions" :key="question.id">
+            <td>{{ question.content }}</td>
           </tr>
         </table>
       </v-col>
@@ -19,7 +14,13 @@
 </template>
 
 <script>
+
+import { mapState } from 'vuex' //変更 ①
+
 export default {
+  computed: { //変更 ②
+    ...mapState(['questions'])
+  },
   data() {
     return {
       question: {}
