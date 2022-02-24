@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_24_010732) do
+ActiveRecord::Schema.define(version: 2022_02_24_033839) do
+
+  create_table "choices", force: :cascade do |t|
+    t.string "content", null: false
+    t.boolean "is_answer"
+    t.integer "question_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "questions", force: :cascade do |t|
     t.text "content", null: false
