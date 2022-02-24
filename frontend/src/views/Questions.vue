@@ -1,12 +1,10 @@
 <template>
 <div>
   <v-col cols="8">
-        <table>
+        <table v-for="question in questions" :key="question.id">
+          <tr>問題</tr>
           <tr>
-            <th>問題</th>
-          </tr>
-          <tr v-for="question in questions" :key="question.id">
-            <td>{{ question.content }}</td>
+            {{ question.content }}
           </tr>
         </table>
       </v-col>
@@ -15,10 +13,10 @@
 
 <script>
 
-import { mapState } from 'vuex' //変更 ①
+import { mapState } from 'vuex'
 
 export default {
-  computed: { //変更 ②
+  computed: {
     ...mapState(['questions'])
   },
   data() {
