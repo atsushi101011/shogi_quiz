@@ -1,14 +1,17 @@
 <template>
 <div>
-  <v-col cols="8">
         <table v-for="question in questions" :key="question.id">
           <tr>問題</tr>
           <tr>
             {{ question.content }}
           </tr>
         </table>
-      </v-col>
-</div>
+<v-btn to="/result"
+  color="#009688"
+  elevation="4"
+  rounded
+  x-large
+>結果を見る</v-btn></div>
 </template>
 
 <script>
