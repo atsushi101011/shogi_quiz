@@ -1,12 +1,12 @@
 <template>
 <div>
         <table v-for="question in questions" :key="question.id">
-          <tr>問題</tr>
+          <tr><b>問題</b></tr>
           <tr>
             {{ question.id}}
             {{ question.content }}
             <!-- forループで問題に対応する回答を表示?key使えばいけそう choiceのquestion_id = question.idとなる回答-->
-            <p>回答</p>
+            <p><b>回答</b></p>
             <p v-for="choice in choices" :key="choice.id">
               {{ choice.content }}
             </p>
