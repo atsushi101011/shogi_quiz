@@ -4,6 +4,7 @@
           <tr>問題</tr>
           <tr>
             {{ question.content }}
+            <!-- forループで問題に対応する回答を表示? -->
           </tr>
         </table>
 <v-btn to="/result"
