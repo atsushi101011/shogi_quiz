@@ -1,9 +1,15 @@
 <template>
 <div>
         <table v-for="question in questions" :key="question.id">
-          <tr>問題</tr>
+          <tr><b>問題</b></tr>
           <tr>
+            {{ question.id}}
             {{ question.content }}
+            <!-- forループで問題に対応する回答を表示?key使えばいけそう choiceのquestion_id = question.idとなる回答-->
+            <p><b>回答</b></p>
+            <p v-for="choice in question.choices" :key="choice.id">
+              {{ choice.content }}
+            </p>
           </tr>
         </table>
 <v-btn to="/result"
@@ -14,17 +20,25 @@
 >結果を見る</v-btn></div>
 </template>
 
+<style>
+table {
+  margin: 0 auto;
+}
+</style>
+
 <script>
 
 import { mapState } from 'vuex'
 
 export default {
   computed: {
-    ...mapState(['questions'])
+    ...mapState(['questions']),
+    ...mapState(['choices'])
   },
   data() {
     return {
-      question: {}
+      question: {},
+      choice: {}
     }
   },
   methods: {

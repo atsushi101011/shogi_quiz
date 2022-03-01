@@ -12,6 +12,14 @@
       color="indigo"
     >
       Twitterにシェアする
+    </v-btn><br><br>
+
+    <v-btn to="/"
+      class="ma-2"
+      outlined
+      color="indigo"
+    >
+      トップページへ戻る
     </v-btn>
 
   </div>

@@ -1,7 +1,13 @@
 class V1::QuestionsController < ApiController
   def index
     questions = Question.all
-    render json: questions
+    render json: questions, include: [:choices]
+  end
+
+  def show
+    question = Question.find(params[:id])
+    choices = question.choices #回答の選択肢を全て取得
+    render json: choices, include: [:question]
   end
 
   def update
