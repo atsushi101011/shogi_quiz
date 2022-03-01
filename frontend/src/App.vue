@@ -21,8 +21,7 @@
 <script>
 export default {
   created() {
-    this.$store.dispatch('fetchQuestions'),
-    this.$store.dispatch('fetchChoices')
-  },
+    this.$store.dispatch('fetchQuestions')
+  }
 }
 </script>

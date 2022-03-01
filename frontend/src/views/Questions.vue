@@ -32,13 +32,11 @@ import { mapState } from 'vuex'
 
 export default {
   computed: {
-    ...mapState(['questions']),
-    ...mapState(['choices'])
+    ...mapState(['questions'])
   },
   data() {
     return {
-      question: {},
-      choice: {}
+      question: {}
     }
   },
   methods: {

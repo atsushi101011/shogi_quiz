@@ -6,8 +6,7 @@ class V1::QuestionsController < ApiController
 
   def show
     question = Question.find(params[:id])
-    choices = question.choices #回答の選択肢を全て取得
-    render json: choices, include: [:question]
+    render json: question, include: [:choices]
   end
 
   def update
