@@ -10,9 +10,9 @@ import { mapState } from 'vuex' // ①
 
 export default {
   computed: {
-    ...mapState(['questions']), // ②
+    ...mapState(['question']), // ②
     question() { // ③
-      return this.questions.find(questionId => questionId.id === this.$route.params.id) || {}
+      return this.question.find(questionId => questionId.id === this.$route.params.id) || {}
     }
   }
 }

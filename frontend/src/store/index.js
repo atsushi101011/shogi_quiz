@@ -7,11 +7,14 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     questions: [],
-    choices: []
+    question: []
   },
   mutations: {
     FETCH_QUESTIONS(state, questions) {
       state.questions = questions
+    },
+    SHOW_QUESTION(state, question) {
+      state.question = question
     }
   },
   actions: {
@@ -19,6 +22,13 @@ export default new Vuex.Store({
       await axios().get('/questions')
         .then(res => {
           commit('FETCH_QUESTIONS', res.data)
+        })
+        .catch(e => console.log(e))
+    },
+    async showQuestion({ commit }, question) {
+      await axios().get(`/questions/${question.id}`, question) //idの書き方調べる
+        .then(res => {
+          commit('SHOW_QUESTION', res.data)
         })
         .catch(e => console.log(e))
     }
