@@ -5,12 +5,13 @@
           <tr>
             {{ question.id}}
             {{ question.content }}
-            <!-- forループで問題に対応する回答を表示?key使えばいけそう choiceのquestion_id = question.idとなる回答-->
+
             <p><b>回答</b></p>
             <p v-for="choice in question.choices" :key="choice.id">
-              {{ choice.content }}
+            <v-btn @click="judgement">{{ choice.content }}</v-btn>
+            {{ choice.is_answer}}
             </p>
-          </tr>
+          </tr><br>
         </table>
 <v-btn to="/result"
   color="#009688"
@@ -40,7 +41,9 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
+    judgement() {
+      if (question.choice.is_answer == true)//クリックしたchoiceのis_answerのカラムをどうやって判定する？
+        window.alert("正解");
     }
   }
 }
