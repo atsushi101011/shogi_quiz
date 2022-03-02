@@ -8,8 +8,7 @@
 
             <p><b>回答</b></p>
             <p v-for="choice in question.choices" :key="choice.id">
-            <v-btn @click="judgement">{{ choice.content }}</v-btn>
-            {{ choice.is_answer}}
+            <v-btn @click="judgement(choice)">{{ choice.content }}</v-btn>
             </p>
           </tr><br>
         </table>
@@ -22,6 +21,7 @@
 </template>
 
 <style>
+/* クラスを当てる */
 table {
   margin: 0 auto;
 }
@@ -35,15 +35,19 @@ export default {
   computed: {
     ...mapState(['questions'])
   },
-  data() {
-    return {
-      question: {}
-    }
-  },
+  // data() {
+  //   return {
+  //     question: {},
+  //   }
+  // },
   methods: {
-    judgement() {
-      if (question.choice.is_answer == true)//クリックしたchoiceのis_answerのカラムをどうやって判定する？
-        window.alert("正解");
+    judgement(choice) {
+      if (choice.is_answer){
+        console.log("正解")
+      }
+      else{
+        console.log("不正解")
+      }
     }
   }
 }
