@@ -23,6 +23,7 @@ Vue.use(VueRouter)
     path: '/questions/:id',
     name: 'show-question',
     component: Question,
+    params: true
   },
   {
     path: '/result',

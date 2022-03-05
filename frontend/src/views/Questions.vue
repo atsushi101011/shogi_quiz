@@ -5,12 +5,12 @@
           <tr>
             {{ question.id}}
             {{ question.content }}
-            <!-- forループで問題に対応する回答を表示?key使えばいけそう choiceのquestion_id = question.idとなる回答-->
+
             <p><b>回答</b></p>
             <p v-for="choice in question.choices" :key="choice.id">
-              {{ choice.content }}
+              <v-btn @click="judgement(choice)">{{ choice.content }}</v-btn>
             </p>
-          </tr>
+          </tr><br>
         </table>
 <v-btn to="/result"
   color="#009688"
@@ -21,6 +21,7 @@
 </template>
 
 <style>
+/* クラスを当てる */
 table {
   margin: 0 auto;
 }
@@ -32,17 +33,21 @@ import { mapState } from 'vuex'
 
 export default {
   computed: {
-    ...mapState(['questions']),
-    ...mapState(['choices'])
+    ...mapState(['questions'])
   },
-  data() {
-    return {
-      question: {},
-      choice: {}
-    }
-  },
+  // data() {
+  //   return {
+  //     question: {},
+  //   }
+  // },
   methods: {
-    onSubmit() {
+    judgement(choice) {
+      if (choice.is_answer){
+        console.log("正解");
+      }
+      else{
+        console.log("不正解")
+      }
     }
   }
 }
