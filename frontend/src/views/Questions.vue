@@ -8,7 +8,7 @@
 
             <p><b>回答</b></p>
             <p v-for="choice in question.choices" :key="choice.id">
-            <v-btn @click="judgement(choice)">{{ choice.content }}</v-btn>
+              <v-btn @click="judgement(choice)">{{ choice.content }}</v-btn>
             </p>
           </tr><br>
         </table>
@@ -43,7 +43,7 @@ export default {
   methods: {
     judgement(choice) {
       if (choice.is_answer){
-        console.log("正解")
+        console.log("正解");
       }
       else{
         console.log("不正解")
