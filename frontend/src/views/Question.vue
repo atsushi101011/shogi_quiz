@@ -6,14 +6,19 @@
 </template>
 
 <script>
-import { mapState } from 'vuex' // ①
+import { mapState } from "vuex"; // ①
 
 export default {
   computed: {
-    ...mapState(['question']), // ②
-    question() { // ③
-      return this.question.find(questionId => questionId.id === this.$route.params.id) || {}
-    }
-  }
-}
+    ...mapState(["question"]), // ②
+    question() {
+      // ③
+      return (
+        this.question.find(
+          (questionId) => questionId.id === this.$route.params.id
+        ) || {}
+      );
+    },
+  },
+};
 </script>

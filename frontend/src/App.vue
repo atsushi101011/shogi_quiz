@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-container>
-      <router-view/>
+      <router-view />
     </v-container>
   </div>
 </template>
@@ -15,14 +15,13 @@
   color: #2c3e50;
   margin-top: 50px;
 }
-
 </style>
 
 <script>
 export default {
   created() {
-    this.$store.dispatch('fetchQuestions'),
-    this.$store.dispatch('showQuestion')
-  }
-}
+    this.$store.dispatch("fetchQuestions"),
+      this.$store.dispatch("showQuestion");
+  },
+};
 </script>
