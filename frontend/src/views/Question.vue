@@ -20,5 +20,8 @@ export default {
     //   );
     // },
   },
+  created() {
+    this.$store.dispatch("showQuestion");
+  },
 };
 </script>

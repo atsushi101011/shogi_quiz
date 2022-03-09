@@ -44,6 +44,9 @@ export default {
   //     question: {},
   //   }
   // },
+  created() {
+    this.$store.dispatch("fetchQuestions");
+  },
   methods: {
     judgement(choice) {
       if (choice.is_answer) {

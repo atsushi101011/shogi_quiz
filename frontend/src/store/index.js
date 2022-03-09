@@ -30,6 +30,7 @@ export default new Vuex.Store({
       await axios()
         .get(`/questions/${this.$route.params.id}`) //idの書き方調べる
         .then((res) => {
+          console.log(res.data),
           commit("SHOW_QUESTION", res.data);
         })
         .catch((e) => console.log(e));
