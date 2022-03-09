@@ -12,7 +12,7 @@ export default {
   computed: {
     ...mapState(["question"]), // ②
     question() {
-      // ③
+      //要確認
       return (
         this.question.find(
           (questionId) => questionId.id === this.$route.params.id

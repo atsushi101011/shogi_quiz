@@ -26,9 +26,9 @@ export default new Vuex.Store({
         })
         .catch((e) => console.log(e));
     },
-    async showQuestion({ commit }, question) {
+    async showQuestion({ commit }) {
       await axios()
-        .get(`/questions/${question.id}`, question) //idの書き方調べる
+        .get(`/questions/${this.$route.params.id}`) //idの書き方調べる
         .then((res) => {
           commit("SHOW_QUESTION", res.data);
         })
