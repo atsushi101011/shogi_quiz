@@ -5,10 +5,14 @@
         <p v-for="choice in question().choices" :key="choice.id">
           <v-btn @click="judgement(choice)">{{ choice.content }}</v-btn>
         </p>
-        {{ correct_answer }}
-    <!-- 最後の問題のときは結果ページへ遷移させる -->
-    <!-- <router-link :to="{ name: 'show-question', params: { id: nextQuestion(this.$route.params.id) }}">次の問題へ</router-link> -->
-    <router-link :to="nextQuestion(this.$route.params.id)">次の問題へ</router-link>
+        {{ correctAnswer }}
+    <!-- 最後の問題のときは結果ページへ遷移させる quizCount === numberOfQuestionsのとき-->
+    <p v-if="this.quizCount < this.numberOfQuestions">
+      <router-link :to="nextQuestion()">次の問題へ</router-link>
+    </p>
+    <p v-else>
+      <router-link :to="result">結果ページへ</router-link>
+    </p>
   </div>
 </template>
 
@@ -21,33 +25,28 @@ export default {
   },
   data() {
     return {
-      correct_answer: null,
+      correctAnswer: null, //questionsの配列内にあれば、問題ごとの正誤がわかる
+      numberOfQuestions: 5,
+      quizCount: 0,
+      correctCount: 0,
     }
   },
 
   methods: {
     question() {
-      return (this.questions[this.$route.params.id - 1]) //idを取得しているというより、配列の並びに対応した問題を取得している
+      return (this.questions[this.$route.params.id - 1]) //question.idを取得しているというより、配列の並びに対応した問題を取得している,ここを要素数が上限のランダムな数字にすればいい
     },
     judgement(choice) {
       if (choice.is_answer) {
-        this.correct_answer = "正解!!";
+        this.correctAnswer = "正解!!";
       } else {
-        this.correct_answer = "不正解!!";
+        this.correctAnswer = "不正解!!";
       }
     },
-    // nextQuestion(number) {  //次の問題へ進むのに必要な更新をこの関数で定義する
-    //   this.quizCount = Number(number) + 1;
-    //   if (this.quizCount <= this.questions.length) {
-    //     return this.quizCount;
-    //   } else {
-    //     return 1; //結果ページに飛ぶようにしたい
-    //   }
-    // },
-    nextQuestion(number) {  //次の問題へ進むのに必要な更新をこの関数で定義する
-      this.quizCount = Number(number) + 1;
-      if (this.quizCount <= this.questions.length) {
-        return { name: 'show-question', params: {id: this.quizCount }};
+    nextQuestion() {  //次の問題へ進むのに必要な更新をこの関数で定義する
+      this.quizCount = Number(this.$route.params.id);
+      if (this.quizCount < this.numberOfQuestions) {
+        return { name: 'show-question', params: {id: this.quizCount + 1 }};
       } else {
         return { name: 'result'};
       }
