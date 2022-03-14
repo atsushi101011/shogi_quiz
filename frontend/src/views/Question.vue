@@ -25,7 +25,7 @@ export default {
   },
   data() {
     return {
-      correctAnswer: null, //questionsの配列内にあれば、問題ごとの正誤がわかる
+      correctAnswer: null, //各question内にあれば、問題ごとの正誤がわかる
       numberOfQuestions: 5,
       quizCount: 0,
       correctCount: 0,
@@ -34,11 +34,13 @@ export default {
 
   methods: {
     question() {
-      return (this.questions[this.$route.params.id - 1]) //question.idを取得しているというより、配列の並びに対応した問題を取得している,ここを要素数が上限のランダムな数字にすればいい
+      let question = this.questions[this.$route.params.id - 1]; //question.idを取得しているというより、配列の並びに対応した問題を取得している,ここを要素数が上限のランダムな数字にすればいい
+      // question.push(this.correctAnswer);
+      return (question)
     },
     judgement(choice) {
       if (choice.is_answer) {
-        this.correctAnswer = "正解!!";
+        this.correctAnswer = "正解!!"; //true、falseでそのときに正解を表示する方がいい
       } else {
         this.correctAnswer = "不正解!!";
       }
