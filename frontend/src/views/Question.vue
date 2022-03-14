@@ -47,11 +47,7 @@ export default {
     },
     nextQuestion() {  //次の問題へ進むのに必要な更新をこの関数で定義する
       this.quizCount = Number(this.$route.params.id);
-      if (this.quizCount < this.numberOfQuestions) {
-        return { name: 'show-question', params: {id: this.quizCount + 1 }};
-      } else {
-        return { name: 'result'};
-      }
+      return { name: 'show-question', params: {id: this.quizCount + 1 }};
     },
   },
 
