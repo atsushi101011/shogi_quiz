@@ -10,8 +10,8 @@
     <p v-if="this.quizCount < this.numberOfQuestions">
       <router-link :to="nextQuestion()">次の問題へ</router-link>
     </p>
-    <p v-else>
-      <router-link :to="result">結果ページへ</router-link>
+    <p v-else-if="this.quizCount === this.numberOfQuestions">
+      <router-link :to="{name:'result'}">結果ページへ</router-link>
     </p>
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       correctAnswer: null, //各question内にあれば、問題ごとの正誤がわかる
-      numberOfQuestions: 5,
+      numberOfQuestions: 10,
       quizCount: 0,
       correctCount: 0,
     }
