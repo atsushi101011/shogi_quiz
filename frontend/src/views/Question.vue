@@ -1,10 +1,11 @@
 <template>
   <div>
-    <p>問題: {{this.$route.params.id}} {{ question.content }}</p>
+    <p>問題: {{this.$route.params.id}} {{ currentQuestion().content }}</p>
     <p>回答</p>
         <p v-for="choice in question.choices" :key="choice.id">
           <v-btn @click="judgement(choice, question)">{{ choice.content }}</v-btn>
         </p>
+        {{ question.correctAnswer}}
     <p v-if="this.quizCount < this.numberOfQuestions">
       <router-link :to="nextQuestion()">次の問題へ</router-link>
     </p>
@@ -20,41 +21,42 @@
 import { mapState } from "vuex";
 
 export default {
+  created() {
+    this.$store.dispatch("fetchQuestions");
+  },
   computed: {
     ...mapState(["questions"]),
-    question() {
-      let question = this.questions[this.$route.params.id - 1];
-      // question["correctAnswer"] = false;
-      console.log(question);
-      return(question);
-    },
   },
   data() {
     return {
       numberOfQuestions: 10,
       quizCount: 0,
       correctCount: 0,
+      question: null,
     }
   },
 
   methods: {
+    currentQuestion() {
+      this.question = this.questions[this.$route.params.id - 1];
+      this.question["correctAnswer"] = false; //呼び出すたびにfalseになる、どこに書く？
+      return(this.question);
+    },
     judgement(choice, question) {
       if (choice.is_answer) {
-        question.correctAnswer = true;
+        question.correctAnswer = true; //vueツールに反映されてない
         console.log(question.correctAnswer);
+        return(question.correctAnswer);
       } else {
         question.correctAnswer = false;
         console.log(question.correctAnswer);
+        return(question.correctAnswer);
       }
     },
     nextQuestion() {  //次の問題へ進むのに必要な更新をこの関数で定義する
       this.quizCount = Number(this.$route.params.id);
       return { name: 'show-question', params: {id: this.quizCount + 1 }};
     },
-  },
-
-  created() {
-    this.$store.dispatch("fetchQuestions");
   },
 };
 </script>
