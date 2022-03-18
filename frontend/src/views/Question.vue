@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>問題: {{this.$route.params.id}} {{ currentQuestion().content }}</p>
+    <p>問題: {{this.$route.params.id}} {{ question.content }}</p>
     <p>回答</p>
         <p v-for="choice in question.choices" :key="choice.id">
           <v-btn @click="judgement(choice, question)">{{ choice.content }}</v-btn>
@@ -21,9 +21,12 @@
 import { mapState } from "vuex";
 
 export default {
-  created() {
-    this.$store.dispatch("fetchQuestions");
-  },
+async created() {
+  await this.$store.dispatch("fetchQuestions");
+  this.question = this.questions[this.$route.params.id - 1];
+  this.question["correctAnswer"] = false;
+  console.log(this.question);
+},
   computed: {
     ...mapState(["questions"]),
   },
@@ -37,11 +40,11 @@ export default {
   },
 
   methods: {
-    currentQuestion() {
-      this.question = this.questions[this.$route.params.id - 1];
-      this.question["correctAnswer"] = false; //呼び出すたびにfalseになる、どこに書く？
-      return(this.question);
-    },
+    // currentQuestion() {
+    //   this.question = this.questions[this.$route.params.id - 1];
+    //   this.question["correctAnswer"] = false; //呼び出すたびにfalseになる、どこに書く？
+    //   return(this.question);
+    // },
     judgement(choice, question) {
       if (choice.is_answer) {
         question.correctAnswer = true; //vueツールに反映されてない
