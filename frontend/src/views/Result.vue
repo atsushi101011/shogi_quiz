@@ -1,7 +1,7 @@
 <template>
   <div class="result">
     <h1>クイズ結果</h1>
-    <h2>9問 / 10問 正解 !</h2>
+    <h2>{{correctCount}}問 / {{numberOfQuestions}}問 正解 !</h2>
     <br />
     <v-btn elevation="4" outlined x-large>観る将三段</v-btn><br /><br />
     <v-btn class="ma-2" outlined color="indigo"> Twitterにシェアする </v-btn
@@ -14,7 +14,17 @@
 </template>
 
 <script>
+import Question from "../views/Question.vue";
+
 export default {
-  components: {},
+  props: ["correctCount","numberOfQuestions"],
+  components: {
+    Question
+  },
+
+  methods: {
+
+  }
 };
+
 </script>

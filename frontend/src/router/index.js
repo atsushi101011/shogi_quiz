@@ -28,6 +28,7 @@ const routes = [
     path: "/result",
     name: "result",
     component: Result,
+    props: true,
   },
 ];
 

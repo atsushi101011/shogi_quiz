@@ -18,7 +18,9 @@
         <router-link :to="nextQuestion()">次の問題へ</router-link>
       </p>
       <p v-else>
-        <router-link :to="{name:'result'}">結果ページへ</router-link>
+        <router-link :to="{name:'result', params: {correctCount: this.correctCount, numberOfQuestions: this.numberOfQuestions}}">
+          結果ページへ
+        </router-link>
       </p>
     </div>
 
@@ -34,6 +36,7 @@
 
 <script>
 import { mapState } from "vuex";
+import Result from "../views/Result.vue";
 
 export default {
   async created() {
@@ -85,5 +88,8 @@ export default {
       return { name: 'show-question', params: {id: this.quizCount}};
     },
   },
+  components: {
+    Result
+  }
 };
 </script>
