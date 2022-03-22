@@ -1,18 +1,26 @@
 <template>
   <div>
-    <p>問題: {{this.$route.params.id}} {{ question.content }}</p>
+    <p>問題{{this.$route.params.id}}: {{ question.content }}</p>
     <p>回答</p>
         <p v-for="choice in question.choices" :key="choice.id">
           <v-btn @click="judgement(choice, question)">{{ choice.content }}</v-btn>
         </p>
-        {{ question.correctAnswer}}
 
-    <p v-if="this.$route.params.id < this.numberOfQuestions">
-      <router-link :to="nextQuestion()">次の問題へ</router-link>
-    </p>
-    <p v-else>
-      <router-link :to="{name:'result'}">結果ページへ</router-link>
-    </p>
+    <div v-if="isActive">
+      <p v-if="question.correctAnswer">
+        <v-btn color="#00bfff" elevation="4" x-large> 正解! </v-btn>
+      </p>
+      <p v-else>
+        <v-btn color="#ff6347" elevation="4" x-large> 不正解! </v-btn>
+      </p>
+
+      <p v-if="this.$route.params.id < this.numberOfQuestions">
+        <router-link :to="nextQuestion()">次の問題へ</router-link>
+      </p>
+      <p v-else>
+        <router-link :to="{name:'result'}">結果ページへ</router-link>
+      </p>
+    </div>
 
     <br><br>{{ question }} <!-- 確認用 -->
   </div>
@@ -34,11 +42,13 @@ export default {
       quizCount: 0,
       correctCount: 0,
       question: null,
+      isActive: false,
     }
   },
 
   async beforeRouteUpdate(to, from, next) {
     await this.fetchQuestions(to.params.id);
+    this.isActive = false;
     console.log("[ENTER] To: " + to.path, + " From: " + from.path);
     console.log(to);
     next();
@@ -48,11 +58,11 @@ export default {
     async fetchQuestions(id) {
       await this.$store.dispatch("fetchQuestions");
       this.question = this.questions[id - 1];
-      console.log(id);
       this.$set(this.question, 'correctAnswer', false);
     },
 
     judgement(choice, question) {
+      this.isActive = true;
       if (choice.is_answer) {
         question.correctAnswer = true;
         return(question.correctAnswer);
