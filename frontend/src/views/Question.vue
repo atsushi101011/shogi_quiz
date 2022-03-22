@@ -2,7 +2,7 @@
   <div>
     <p>問題{{this.$route.params.id}}: {{ question.content }}</p>
     <p>回答</p>
-        <p v-for="choice in question.choices" :key="choice.id">
+        <p v-for="choice in question.choices" :key="choice.id"> <!-- 一度だけjudgement関数を発火させるには? -->
           <v-btn @click="judgement(choice, question)">{{ choice.content }}</v-btn>
         </p>
 
@@ -26,6 +26,12 @@
   </div>
 </template>
 
+<style>
+/* .buttonColor {
+  background-color: green;
+} */
+</style>
+
 <script>
 import { mapState } from "vuex";
 
@@ -33,9 +39,17 @@ export default {
   async created() {
     await this.fetchQuestions(this.$route.params.id);
   },
+
+  async beforeRouteUpdate(to, from, next) {
+    await this.fetchQuestions(to.params.id);
+    this.isActive = false;
+    next();
+  },
+
   computed: {
     ...mapState(["questions"]),
   },
+
   data() {
     return {
       numberOfQuestions: 10,
@@ -46,32 +60,27 @@ export default {
     }
   },
 
-  async beforeRouteUpdate(to, from, next) {
-    await this.fetchQuestions(to.params.id);
-    this.isActive = false;
-    console.log("[ENTER] To: " + to.path, + " From: " + from.path);
-    console.log(to);
-    next();
-  },
-
   methods: {
     async fetchQuestions(id) {
       await this.$store.dispatch("fetchQuestions");
       this.question = this.questions[id - 1];
       this.$set(this.question, 'correctAnswer', false);
     },
-
     judgement(choice, question) {
+      if (this.isActive){
+        return;
+      };
       this.isActive = true;
       if (choice.is_answer) {
         question.correctAnswer = true;
+        // 正解数をカウント
         return(question.correctAnswer);
       } else {
         question.correctAnswer = false;
         return(question.correctAnswer);
-      }
+      };
     },
-    nextQuestion() {  //次の問題へ進むのに必要な更新をこの関数で定義する
+    nextQuestion() {
       this.quizCount = Number(this.$route.params.id) + 1;
       return { name: 'show-question', params: {id: this.quizCount}};
     },
