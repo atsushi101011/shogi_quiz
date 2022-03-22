@@ -1,10 +1,10 @@
 <template>
   <div>
-    <p>問題{{this.$route.params.id}}: {{ question.content }}</p>
+    <p>問題{{ this.$route.params.id }}: {{ question.content }}</p>
     <p>回答</p>
-        <p v-for="choice in question.choices" :key="choice.id"> <!-- 一度だけjudgement関数を発火させるには? -->
-          <v-btn @click="judgement(choice, question)">{{ choice.content }}</v-btn>
-        </p>
+    <p v-for="choice in question.choices" :key="choice.id">
+      <v-btn @click="judgement(choice, question)">{{ choice.content }}</v-btn>
+    </p>
 
     <div v-if="isActive">
       <p v-if="question.correctAnswer">
@@ -18,13 +18,19 @@
         <router-link :to="nextQuestion()">次の問題へ</router-link>
       </p>
       <p v-else>
-        <router-link :to="{name:'result', params: {correctCount: this.correctCount, numberOfQuestions: this.numberOfQuestions}}">
+        <router-link
+          :to="{
+            name: 'result',
+            params: {
+              correctCount: this.correctCount,
+              numberOfQuestions: this.numberOfQuestions,
+            },
+          }"
+        >
           結果ページへ
         </router-link>
       </p>
     </div>
-
-    <br><br>{{ question }} <!-- 確認用 -->
   </div>
 </template>
 
@@ -36,7 +42,6 @@
 
 <script>
 import { mapState } from "vuex";
-import Result from "../views/Result.vue";
 
 export default {
   async created() {
@@ -60,36 +65,33 @@ export default {
       correctCount: 0,
       question: null,
       isActive: false,
-    }
+    };
   },
 
   methods: {
     async fetchQuestions(id) {
       await this.$store.dispatch("fetchQuestions");
       this.question = this.questions[id - 1];
-      this.$set(this.question, 'correctAnswer', false);
+      this.$set(this.question, "correctAnswer", false);
     },
     judgement(choice, question) {
-      if (this.isActive){
+      if (this.isActive) {
         return;
-      };
+      }
       this.isActive = true;
       if (choice.is_answer) {
         question.correctAnswer = true;
         this.correctCount++;
-        return(question.correctAnswer);
+        return question.correctAnswer;
       } else {
         question.correctAnswer = false;
-        return(question.correctAnswer);
-      };
+        return question.correctAnswer;
+      }
     },
     nextQuestion() {
       this.quizCount = Number(this.$route.params.id) + 1;
-      return { name: 'show-question', params: {id: this.quizCount}};
+      return { name: "show-question", params: { id: this.quizCount } };
     },
   },
-  components: {
-    Result
-  }
 };
 </script>
