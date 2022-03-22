@@ -24,8 +24,7 @@ export default {
 async created() {
   await this.$store.dispatch("fetchQuestions");
   this.question = this.questions[this.$route.params.id - 1];
-  this.question["correctAnswer"] = false;
-  console.log(this.question);
+  this.$set(this.question, 'correctAnswer', false);
 },
   computed: {
     ...mapState(["questions"]),
@@ -47,12 +46,10 @@ async created() {
     // },
     judgement(choice, question) {
       if (choice.is_answer) {
-        question.correctAnswer = true; //vueツールに反映されてない
-        console.log(question.correctAnswer);
+        question.correctAnswer = true;
         return(question.correctAnswer);
       } else {
         question.correctAnswer = false;
-        console.log(question.correctAnswer);
         return(question.correctAnswer);
       }
     },
