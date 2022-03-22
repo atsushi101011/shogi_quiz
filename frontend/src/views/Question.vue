@@ -73,7 +73,7 @@ export default {
       this.isActive = true;
       if (choice.is_answer) {
         question.correctAnswer = true;
-        // 正解数をカウント
+        this.correctCount++;
         return(question.correctAnswer);
       } else {
         question.correctAnswer = false;
