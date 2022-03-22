@@ -2,7 +2,7 @@
   <div>
     <p>問題{{this.$route.params.id}}: {{ question.content }}</p>
     <p>回答</p>
-        <p v-for="choice in question.choices" :key="choice.id"> <!-- 一度だけjudgement関数を発火させるには? -->
+        <p v-for="choice in question.choices" :key="choice.id">
           <v-btn @click="judgement(choice, question)">{{ choice.content }}</v-btn>
         </p>
 
@@ -23,8 +23,6 @@
         </router-link>
       </p>
     </div>
-
-    <br><br>{{ question }} <!-- 確認用 -->
   </div>
 </template>
 
@@ -36,7 +34,6 @@
 
 <script>
 import { mapState } from "vuex";
-import Result from "../views/Result.vue";
 
 export default {
   async created() {
@@ -88,8 +85,5 @@ export default {
       return { name: 'show-question', params: {id: this.quizCount}};
     },
   },
-  components: {
-    Result
-  }
 };
 </script>

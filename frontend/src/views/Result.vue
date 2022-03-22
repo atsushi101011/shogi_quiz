@@ -14,13 +14,8 @@
 </template>
 
 <script>
-import Question from "../views/Question.vue";
-
 export default {
   props: ["correctCount","numberOfQuestions"],
-  components: {
-    Question
-  },
 
   methods: {
     rankJudgment(){
