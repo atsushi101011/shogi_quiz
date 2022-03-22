@@ -6,10 +6,11 @@
           <v-btn @click="judgement(choice, question)">{{ choice.content }}</v-btn>
         </p>
         {{ question.correctAnswer}}
-    <p v-if="this.quizCount < this.numberOfQuestions">
+
+    <p v-if="this.$route.params.id < this.numberOfQuestions">
       <router-link :to="nextQuestion()">次の問題へ</router-link>
     </p>
-    <p v-else-if="this.quizCount === this.numberOfQuestions">
+    <p v-else>
       <router-link :to="{name:'result'}">結果ページへ</router-link>
     </p>
 
@@ -21,11 +22,9 @@
 import { mapState } from "vuex";
 
 export default {
-async created() {
-  await this.$store.dispatch("fetchQuestions");
-  this.question = this.questions[this.$route.params.id - 1];
-  this.$set(this.question, 'correctAnswer', false);
-},
+  async created() {
+    await this.fetchQuestions(this.$route.params.id);
+  },
   computed: {
     ...mapState(["questions"]),
   },
@@ -38,12 +37,21 @@ async created() {
     }
   },
 
+  async beforeRouteUpdate(to, from, next) {
+    await this.fetchQuestions(to.params.id);
+    console.log("[ENTER] To: " + to.path, + " From: " + from.path);
+    console.log(to);
+    next();
+  },
+
   methods: {
-    // currentQuestion() {
-    //   this.question = this.questions[this.$route.params.id - 1];
-    //   this.question["correctAnswer"] = false; //呼び出すたびにfalseになる、どこに書く？
-    //   return(this.question);
-    // },
+    async fetchQuestions(id) {
+      await this.$store.dispatch("fetchQuestions");
+      this.question = this.questions[id - 1];
+      console.log(id);
+      this.$set(this.question, 'correctAnswer', false);
+    },
+
     judgement(choice, question) {
       if (choice.is_answer) {
         question.correctAnswer = true;
@@ -54,8 +62,8 @@ async created() {
       }
     },
     nextQuestion() {  //次の問題へ進むのに必要な更新をこの関数で定義する
-      this.quizCount = Number(this.$route.params.id);
-      return { name: 'show-question', params: {id: this.quizCount + 1 }};
+      this.quizCount = Number(this.$route.params.id) + 1;
+      return { name: 'show-question', params: {id: this.quizCount}};
     },
   },
 };
