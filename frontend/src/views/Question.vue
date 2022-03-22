@@ -1,12 +1,20 @@
 <template>
   <div>
-    <p>問題: {{this.$route.params.id}} {{ question().content }}</p>
+    <p>問題: {{this.$route.params.id}} {{ question.content }}</p>
     <p>回答</p>
-        <p v-for="choice in question().choices" :key="choice.id">
-          <v-btn @click="judgement(choice)">{{ choice.content }}</v-btn>
+        <p v-for="choice in question.choices" :key="choice.id">
+          <v-btn @click="judgement(choice, question)">{{ choice.content }}</v-btn>
         </p>
-        <p>{{ correct_answer }}</p>
-        <!-- <router-link to="/questions/">次の問題へ</router-link> -->
+        {{ question.correctAnswer}}
+
+    <p v-if="this.$route.params.id < this.numberOfQuestions">
+      <router-link :to="nextQuestion()">次の問題へ</router-link>
+    </p>
+    <p v-else>
+      <router-link :to="{name:'result'}">結果ページへ</router-link>
+    </p>
+
+    <br><br>{{ question }} <!-- 確認用 -->
   </div>
 </template>
 
@@ -14,30 +22,49 @@
 import { mapState } from "vuex";
 
 export default {
+  async created() {
+    await this.fetchQuestions(this.$route.params.id);
+  },
   computed: {
     ...mapState(["questions"]),
   },
   data() {
     return {
-      correct_answer: null,
+      numberOfQuestions: 10,
+      quizCount: 0,
+      correctCount: 0,
+      question: null,
     }
   },
 
-  methods: {
-    question() {
-      return (this.questions[this.$route.params.id - 1])
-    },
-    judgement(choice) {
-      if (choice.is_answer) {
-        this.correct_answer = "正解!!";
-      } else {
-        this.correct_answer = "不正解!!";
-      }
-    },
+  async beforeRouteUpdate(to, from, next) {
+    await this.fetchQuestions(to.params.id);
+    console.log("[ENTER] To: " + to.path, + " From: " + from.path);
+    console.log(to);
+    next();
   },
 
-  created() {
-    this.$store.dispatch("fetchQuestions");
+  methods: {
+    async fetchQuestions(id) {
+      await this.$store.dispatch("fetchQuestions");
+      this.question = this.questions[id - 1];
+      console.log(id);
+      this.$set(this.question, 'correctAnswer', false);
+    },
+
+    judgement(choice, question) {
+      if (choice.is_answer) {
+        question.correctAnswer = true;
+        return(question.correctAnswer);
+      } else {
+        question.correctAnswer = false;
+        return(question.correctAnswer);
+      }
+    },
+    nextQuestion() {  //次の問題へ進むのに必要な更新をこの関数で定義する
+      this.quizCount = Number(this.$route.params.id) + 1;
+      return { name: 'show-question', params: {id: this.quizCount}};
+    },
   },
 };
 </script>
