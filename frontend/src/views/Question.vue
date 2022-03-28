@@ -1,24 +1,26 @@
 <template>
   <div>
-    <p>問題{{ this.$route.params.id }}: {{ question.content }}</p>
-    <p>回答</p>
-    <p v-for="choice in question.choices" :key="choice.id">
-      <v-btn @click="judgement(choice, question)">{{ choice.content }}</v-btn>
-    </p>
+    <p class="question"> 問題{{ this.$route.params.id }}: {{ question.content }}</p>
+    <div class="answer">
+      <p v-for="choice in question.choices" :key="choice.id">
+        <v-btn class="choice" @click="judgement(choice, question)">{{ choice.content }}</v-btn>
+      </p>
+    </div>
 
     <div v-if="isActive">
       <p v-if="question.correctAnswer">
-        <v-btn color="#00bfff" elevation="4" x-large> 正解! </v-btn>
+        <v-btn class="correctButton" color="#00bfff" elevation="4" x-large> 正解! </v-btn>
       </p>
       <p v-else>
-        <v-btn color="#ff6347" elevation="4" x-large> 不正解! </v-btn>
+        <v-btn class="correctButton" color="#ff6347" elevation="4" x-large> 不正解! </v-btn>
       </p>
 
       <p v-if="this.$route.params.id < this.numberOfQuestions">
-        <router-link :to="nextQuestion()">次の問題へ</router-link>
+        <router-link class="nextQuestion" :to="nextQuestion()">次の問題へ</router-link>
       </p>
       <p v-else>
         <router-link
+          class="nextQuestion"
           :to="{
             name: 'result',
             params: {
@@ -35,8 +37,19 @@
 </template>
 
 <style>
-/* .buttonColor {
-  background-color: green;
+.answer {
+  margin: 10px auto;
+}
+
+.choice {
+  margin-bottom: 10px;
+}
+
+.correctButton {
+  margin: 10px auto;
+}
+/* .nextQuestion {
+
 } */
 </style>
 
