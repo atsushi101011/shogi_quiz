@@ -46,7 +46,6 @@ import { mapState } from "vuex";
 export default {
   async created() {
     await this.fetchQuestions(this.$route.params.id);
-    console.log(process.env.VUE_APP_API_ORIGIN);
   },
 
   async beforeRouteUpdate(to, from, next) {
