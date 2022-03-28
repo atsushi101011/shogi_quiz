@@ -29,5 +29,9 @@ const routes = [
 const router = new VueRouter({
   routes,
 });
+const DEFAULT_TITLE = '将棋クイズ'
+router.afterEach(() => {
+  document.title = DEFAULT_TITLE;
+})
 
 export default router;
