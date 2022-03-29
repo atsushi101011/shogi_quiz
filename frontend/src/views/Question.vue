@@ -1,24 +1,27 @@
 <template>
-  <div>
-    <p>問題{{ this.$route.params.id }}: {{ question.content }}</p>
-    <p>回答</p>
-    <p v-for="choice in question.choices" :key="choice.id">
-      <v-btn @click="judgement(choice, question)">{{ choice.content }}</v-btn>
-    </p>
+  <div v-if="question">
+    <p class="question"> 問題{{ this.$route.params.id }}: {{ question.content }}</p>
+    <div class="answer">
+      <p v-for="choice in question.choices" :key="choice.id">
+        <v-btn class="choice" @click="judgement(choice, question)">{{ choice.content }}</v-btn>
+      </p>
+    </div>
 
     <div v-if="isActive">
       <p v-if="question.correctAnswer">
-        <v-btn color="#00bfff" elevation="4" x-large> 正解! </v-btn>
+        <v-btn class="correctButton" color="#00bfff" elevation="4" x-large> 正解! </v-btn>
       </p>
       <p v-else>
-        <v-btn color="#ff6347" elevation="4" x-large> 不正解! </v-btn>
+        <v-btn class="correctButton" color="#ff6347" elevation="4" x-large> 不正解! </v-btn>
       </p>
 
       <p v-if="this.$route.params.id < this.numberOfQuestions">
-        <router-link :to="nextQuestion()">次の問題へ</router-link>
+        <router-link tag="button" class="nextQuestion" :to="nextQuestion()">次の問題へ</router-link>
       </p>
       <p v-else>
         <router-link
+          tag="button"
+          class="nextQuestion"
           :to="{
             name: 'result',
             params: {
@@ -32,25 +35,23 @@
       </p>
     </div>
   </div>
-</template>
 
-<style>
-/* .buttonColor {
-  background-color: green;
-} */
-</style>
+  <div v-else>
+    ♻︎リロード中です
+  </div>
+</template>
 
 <script>
 import { mapState } from "vuex";
 
 export default {
   async created() {
-    await this.fetchQuestions(this.$route.params.id);
-    console.log(process.env.VUE_APP_API_ORIGIN);
+    await this.fetchQuestions();
+    this.question = this.getQuestion(this.$route.params.id);
   },
 
   async beforeRouteUpdate(to, from, next) {
-    await this.fetchQuestions(to.params.id);
+    this.question = this.getQuestion(to.params.id);
     this.isActive = false;
     next();
   },
@@ -70,10 +71,23 @@ export default {
   },
 
   methods: {
-    async fetchQuestions(id) {
+    async fetchQuestions() {
       await this.$store.dispatch("fetchQuestions");
-      this.question = this.questions[id - 1];
-      this.$set(this.question, "correctAnswer", false);
+      this.shuffleArray(this.questions); //全問題の配列をシャッフルする
+      for (let question of this.questions) {
+        question.choices = this.shuffleArray(question.choices);
+      }
+    },
+
+    shuffleArray(inputArray){
+      inputArray.sort(()=> Math.random() - 0.5);
+      return inputArray;
+    },
+
+    getQuestion(id) {
+      const question = this.questions[id - 1];
+      this.$set(question, "correctAnswer", false);
+      return question;
     },
     judgement(choice, question) {
       if (this.isActive) {
@@ -96,3 +110,20 @@ export default {
   },
 };
 </script>
+
+<style>
+.answer {
+  margin: 10px auto;
+}
+
+.choice {
+  margin-bottom: 10px;
+}
+
+.correctButton {
+  margin: 10px auto;
+}
+/* .nextQuestion {
+
+} */
+</style>
