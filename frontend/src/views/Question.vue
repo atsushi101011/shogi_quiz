@@ -58,11 +58,12 @@ import { mapState } from "vuex";
 
 export default {
   async created() {
-    await this.fetchQuestions(this.$route.params.id);
+    await this.fetchQuestions();
+    this.fetchQuestion(this.$route.params.id);
   },
 
   async beforeRouteUpdate(to, from, next) {
-    await this.fetchQuestions(to.params.id);
+    await this.fetchQuestion(to.params.id);
     this.isActive = false;
     next();
   },
@@ -82,8 +83,17 @@ export default {
   },
 
   methods: {
-    async fetchQuestions(id) {
+    shuffleArray(inputArray){
+      inputArray.sort(()=> Math.random() - 0.5);
+    },
+
+    async fetchQuestions() {
       await this.$store.dispatch("fetchQuestions");
+      this.shuffleArray(this.questions); //全問題の配列をシャッフルする
+      console.log(this.questions);
+    },
+
+    fetchQuestion(id) {
       this.question = this.questions[id - 1];
       this.$set(this.question, "correctAnswer", false);
     },
