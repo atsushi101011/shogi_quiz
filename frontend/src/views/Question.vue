@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="question">
     <p class="question"> 問題{{ this.$route.params.id }}: {{ question.content }}</p>
     <div class="answer">
       <p v-for="choice in question.choices" :key="choice.id">
@@ -16,10 +16,11 @@
       </p>
 
       <p v-if="this.$route.params.id < this.numberOfQuestions">
-        <router-link class="nextQuestion" :to="nextQuestion()">次の問題へ</router-link>
+        <router-link tag="button" class="nextQuestion" :to="nextQuestion()">次の問題へ</router-link>
       </p>
       <p v-else>
         <router-link
+          tag="button"
           class="nextQuestion"
           :to="{
             name: 'result',
@@ -34,24 +35,11 @@
       </p>
     </div>
   </div>
+
+  <div v-else>
+    ♻︎リロード中です
+  </div>
 </template>
-
-<style>
-.answer {
-  margin: 10px auto;
-}
-
-.choice {
-  margin-bottom: 10px;
-}
-
-.correctButton {
-  margin: 10px auto;
-}
-/* .nextQuestion {
-
-} */
-</style>
 
 <script>
 import { mapState } from "vuex";
@@ -59,11 +47,11 @@ import { mapState } from "vuex";
 export default {
   async created() {
     await this.fetchQuestions();
-    this.fetchQuestion(this.$route.params.id);
+    this.question = this.getQuestion(this.$route.params.id);
   },
 
   async beforeRouteUpdate(to, from, next) {
-    await this.fetchQuestion(to.params.id);
+    this.question = this.getQuestion(to.params.id);
     this.isActive = false;
     next();
   },
@@ -83,19 +71,23 @@ export default {
   },
 
   methods: {
-    shuffleArray(inputArray){
-      inputArray.sort(()=> Math.random() - 0.5);
-    },
-
     async fetchQuestions() {
       await this.$store.dispatch("fetchQuestions");
       this.shuffleArray(this.questions); //全問題の配列をシャッフルする
-      console.log(this.questions);
+      for (let question of this.questions) {
+        question.choices = this.shuffleArray(question.choices);
+      }
     },
 
-    fetchQuestion(id) {
-      this.question = this.questions[id - 1];
-      this.$set(this.question, "correctAnswer", false);
+    shuffleArray(inputArray){
+      inputArray.sort(()=> Math.random() - 0.5);
+      return inputArray;
+    },
+
+    getQuestion(id) {
+      const question = this.questions[id - 1];
+      this.$set(question, "correctAnswer", false);
+      return question;
     },
     judgement(choice, question) {
       if (this.isActive) {
@@ -118,3 +110,20 @@ export default {
   },
 };
 </script>
+
+<style>
+.answer {
+  margin: 10px auto;
+}
+
+.choice {
+  margin-bottom: 10px;
+}
+
+.correctButton {
+  margin: 10px auto;
+}
+/* .nextQuestion {
+
+} */
+</style>
