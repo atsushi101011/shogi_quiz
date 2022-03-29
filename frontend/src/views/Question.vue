@@ -1,6 +1,6 @@
 <template>
   <div v-if="question">
-    <p class="question"> 問題{{ this.$route.params.id }}: {{ question.content }}</p>
+    <p class="question"> 第{{ this.$route.params.id }}問: {{ question.content }}</p>
     <div class="answer">
       <p v-for="choice in question.choices" :key="choice.id">
         <v-btn class="choice" @click="judgement(choice, question)">{{ choice.content }}</v-btn>
@@ -16,12 +16,12 @@
       </p>
 
       <p v-if="this.$route.params.id < this.numberOfQuestions">
-        <router-link tag="button" class="nextQuestion" :to="nextQuestion()">次の問題へ</router-link>
+        <router-link tag="button" class="btn nextQuestion" :to="nextQuestion()">次の問題へ</router-link>
       </p>
       <p v-else>
         <router-link
           tag="button"
-          class="nextQuestion"
+          class="btn nextQuestion"
           :to="{
             name: 'result',
             params: {
@@ -118,12 +118,12 @@ export default {
 
 .choice {
   margin-bottom: 10px;
+  width: 200px;
 }
 
 .correctButton {
   margin: 10px auto;
 }
 /* .nextQuestion {
-
 } */
 </style>
