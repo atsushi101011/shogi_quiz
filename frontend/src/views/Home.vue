@@ -7,6 +7,7 @@
       >クイズを解く</v-btn
     >
     <h3>10問解いて、将棋の知識を判定しよう</h3>
+    <img src="@/assets/home_logo.png" alt="Logo" class="home_logo">
   </div>
 </template>
 
@@ -23,5 +24,10 @@ export default {
 
 h3 {
   margin-top: 30px;
+}
+
+.home_logo {
+  width:270px;
+  height:270px;
 }
 </style>
