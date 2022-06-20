@@ -29,7 +29,7 @@ const routes = [
 const router = new VueRouter({
   routes,
 });
-const DEFAULT_TITLE = '将棋クイズ'
+const DEFAULT_TITLE = '登山クイズ'
 router.afterEach(() => {
   document.title = DEFAULT_TITLE;
 })
