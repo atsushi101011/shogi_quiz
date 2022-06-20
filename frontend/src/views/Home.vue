@@ -1,19 +1,24 @@
 <template>
   <div class="home">
-    <h2>観る将のための</h2>
-    <h1>将棋クイズ</h1>
+    <h2>ハイカーのための</h2>
+    <h1>登山クイズ</h1>
     <br />
     <v-btn class="startButton" to="/questions/1" color="#009688" elevation="4" x-large
       >クイズを解く</v-btn
     >
-    <h3>10問解いて、将棋の知識を判定しよう</h3>
+    <h3>10問解いて、登山の知識を判定しよう</h3>
     <img src="@/assets/home_logo.png" alt="Logo" class="home_logo">
   </div>
 </template>
 
 <script>
 export default {
-  components: {},
+  name: 'Home',
+  props: {
+  },
+  methods: {
+  },
+  components: {}
 };
 </script>
 
@@ -27,7 +32,7 @@ h3 {
 }
 
 .home_logo {
-  width:270px;
+  width:350px;
   height:270px;
 }
 </style>
