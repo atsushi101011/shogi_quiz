@@ -8,7 +8,7 @@
     <v-btn class="ma-2" outlined color="indigo">
       <ShareNetwork
         network="twitter"
-        url="https://shogi-quiz.herokuapp.com/"
+        url="https://yama-quiz.herokuapp.com/"
         title="正解数を出したい"
         description="Twitter投稿"
         quote="Vue is a progressive framework for building user interfaces."

@@ -1,5 +1,5 @@
 # 登山クイズ
-サイトURL https://shogi-quiz.herokuapp.com/
+サイトURL https://yama-quiz.herokuapp.com/
 開発期間 2022.02~
 
 ## サービス概要
