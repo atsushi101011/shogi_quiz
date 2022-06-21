@@ -9,7 +9,7 @@
       <ShareNetwork
         network="twitter"
         url="https://yama-quiz.herokuapp.com/"
-        title="正解数を出したい"
+        title="クイズで登山の知識を判定しよう!"
         description="Twitter投稿"
         quote="Vue is a progressive framework for building user interfaces."
         hashtags="登山クイズ"
@@ -22,7 +22,7 @@
     <v-btn to="/" class="ma-2" outlined color="indigo">
       トップページへ戻る
     </v-btn>
-
+    <img src="@/assets/result_logo.png" alt="Logo" class="result_logo">
   </div>
 </template>
 
@@ -33,10 +33,12 @@ export default {
 
   methods: {
     rankJudgment() {
-      if (this.correctCount >= 8) {
+      if (this.correctCount >= 10) {
         return "一流ハイカー";
-      } else if (this.correctCount >= 6) {
+      } else if (this.correctCount >= 8) {
         return "上級ハイカー";
+      } else if (this.correctCount >= 6) {
+        return "中級ハイカー";
       } else if (this.correctCount >= 4) {
         return "アマチュアハイカー";
       } else if (this.correctCount >= 2) {
@@ -50,5 +52,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.result_logo {
+  width:270px;
+  height:360px;
+}
 </style>
