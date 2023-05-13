@@ -14,7 +14,7 @@
         quote="Vue is a progressive framework for building user interfaces."
         hashtags="登山クイズ"
       >
-        Twitterにシェアする
+        Twitterにシェア
       </ShareNetwork>
     </v-btn>
     <br/><br/>
