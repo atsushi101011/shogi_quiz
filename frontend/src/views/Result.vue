@@ -3,9 +3,9 @@
     <h1>クイズ結果</h1>
     <h2>{{ correctCount }}問 / {{ numberOfQuestions }}問 正解 !</h2>
     <br />
-    <v-btn elevation="4" outlined x-large>{{ rankJudgment() }}</v-btn
+    <v-btn elevation="4" outlined x-large color="#e7eec0">{{ rankJudgment() }}</v-btn
     ><br /><br />
-    <v-btn class="ma-2" outlined color="indigo">
+    <v-btn class="ma-2" outlined color="#e7eec0">
       <ShareNetwork
         network="twitter"
         url="https://yama-quiz.herokuapp.com/"
@@ -19,9 +19,10 @@
     </v-btn>
     <br/><br/>
 
-    <v-btn to="/" class="ma-2" outlined color="indigo">
+    <v-btn to="/" class="ma-2" outlined color="#e7eec0">
       トップページへ戻る
     </v-btn>
+    <br/>
     <img src="@/assets/result_logo.png" alt="Logo" class="result_logo">
   </div>
 </template>
