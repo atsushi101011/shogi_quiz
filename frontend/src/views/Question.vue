@@ -1,4 +1,5 @@
 <template>
+  <!-- 問題と回答の描画 -->
   <div v-if="question">
     <p class="question"> 第{{ this.$route.params.id }}問: {{ question.content }}</p>
     <div class="answer">
@@ -10,6 +11,7 @@
     <!-- <v-btn v-bind:class="{ buttonColor: buttonState }" @click="changeColor()">Test</v-btn>
     {{buttonState}} -->
 
+    <!-- 正誤表示 -->
     <div v-if="isActive">
       <p v-if="question.correctAnswer">
         <v-btn class="correctButton" color="#00bfff" elevation="4" x-large> 正解! </v-btn>
@@ -18,9 +20,12 @@
         <v-btn class="correctButton" color="#ff6347" elevation="4" x-large> 不正解! </v-btn>
       </p>
 
+      <!-- 次の問題へ進むボタンの表示 -->
       <p v-if="this.$route.params.id < this.numberOfQuestions">
         <router-link tag="button" class="btn nextQuestion" :to="nextQuestion()">次の問題へ</router-link>
       </p>
+
+      <!-- 正解数を渡して、Resultに遷移する -->
       <p v-else>
         <router-link
           tag="button"
@@ -76,14 +81,16 @@ export default {
   },
 
   methods: {
+    // 問題と回答の取得
     async fetchQuestions() {
       await this.$store.dispatch("fetchQuestions");
-      this.shuffleArray(this.questions); //全問題の配列をシャッフルする
+      this.shuffleArray(this.questions);
       for (let question of this.questions) {
         question.choices = this.shuffleArray(question.choices);
       }
     },
 
+    // 問題と回答の配列をシャッフルする
     shuffleArray(inputArray){
       inputArray.sort(()=> Math.random() - 0.5);
       return inputArray;
@@ -95,6 +102,7 @@ export default {
       return question;
     },
 
+    // 正誤判定
     judgement(choice, question) {
       if (this.isActive) {
         return;
